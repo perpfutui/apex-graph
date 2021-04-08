@@ -1,7 +1,6 @@
 type Order @entity {
   id: ID!
   trader: Bytes!
-  asset: Bytes!
   reduceOnly: Boolean
   stillValid: Boolean
   filled: Boolean
