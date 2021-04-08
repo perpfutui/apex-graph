@@ -1,0 +1,38 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: xdai
+    source:
+      address: "0x02e7B722E178518Ae07a596A7cb5F88B313c453a"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - OrderChanged
+        - OrderCreated
+        - OrderFilled
+        - OwnershipTransferred
+        - TrailingOrderCreated
+        - TrailingOrderFilled
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: OrderChanged(indexed address,uint256)
+          handler: handleOrderChanged
+        - event: OrderCreated(indexed address,uint256)
+          handler: handleOrderCreated
+        - event: OrderFilled(indexed address,uint256)
+          handler: handleOrderFilled
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: TrailingOrderCreated(uint256,uint256)
+          handler: handleTrailingOrderCreated
+        - event: TrailingOrderFilled(uint256)
+          handler: handleTrailingOrderFilled
+      file: ./src/mapping.ts
