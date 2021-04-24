@@ -13,4 +13,5 @@ type Order @entity {
   leverage: BigInt
   slippage: BigInt
   tipFee: BigInt
+  expiry: BigInt
 }

@@ -22,6 +22,7 @@ export function handleOrderChanged(event: OrderChanged): void {
   entity.collateral = order.collateral.d
   entity.leverage = order.leverage.d
   entity.slippage = order.slippage.d
+  entity.expiry = order.expiry
   entity.save()
 }
 
@@ -43,6 +44,7 @@ export function handleOrderCreated(event: OrderCreated): void {
   entity.tipFee = order.tipFee.d
   entity.filled = false
   entity.asset = order.asset
+  entity.expiry = order.expiry
   entity.save()
 }
 
@@ -50,6 +52,7 @@ export function handleOrderCreated(event: OrderCreated): void {
 export function handleOrderFilled(event: OrderFilled): void {
   let entity = Order.load(event.params.order_id.toString())
   entity.filled = true
+  entity.stillValid = false
   entity.save()
 }
 
