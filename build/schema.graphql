@@ -15,3 +15,17 @@ type Order @entity {
   tipFee: BigInt
   expiry: BigInt
 }
+
+type TrailingOrder @entity {
+  id: ID!
+  witnessPrice: BigInt
+  trail: BigInt
+  trailPct: BigInt
+  gap: BigInt
+  gapPct: BigInt
+  usePct: Boolean
+  snapshotCreated: BigInt
+  snapshotLastUpdated: BigInt
+  snapshotTimestamp: BigInt
+  lastUpdatedKeeper: Bytes
+}

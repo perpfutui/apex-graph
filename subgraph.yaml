@@ -17,7 +17,6 @@ dataSources:
         - OrderChanged
         - OrderCreated
         - OrderFilled
-        - OwnershipTransferred
         - TrailingOrderCreated
         - TrailingOrderFilled
       abis:
@@ -30,10 +29,11 @@ dataSources:
           handler: handleOrderCreated
         - event: OrderFilled(indexed address,uint256)
           handler: handleOrderFilled
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: TrailingOrderCreated(uint256,uint256)
           handler: handleTrailingOrderCreated
         - event: TrailingOrderFilled(uint256)
           handler: handleTrailingOrderFilled
+      callHandlers:
+        - function: pokeContract(uint256,uint256)
+          handler: handlePokeContract
       file: ./src/mapping.ts

@@ -4,11 +4,13 @@ import {
   OrderChanged,
   OrderCreated,
   OrderFilled,
-  OwnershipTransferred,
   TrailingOrderCreated,
-  TrailingOrderFilled
+  TrailingOrderFilled,
+  PokeContractCall
 } from "../generated/Contract/Contract"
-import { Order } from "../generated/schema"
+import { Order,
+  TrailingOrder
+} from "../generated/schema"
 
 export function handleOrderChanged(event: OrderChanged): void {
   let entity = Order.load(event.params.order_id.toString())
@@ -56,8 +58,38 @@ export function handleOrderFilled(event: OrderFilled): void {
   entity.save()
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleTrailingOrderCreated(event: TrailingOrderCreated): void {
+  let entity = new TrailingOrder(event.params.order_id.toString())
+  let contract = Contract.bind(event.address)
+  let order = contract.getTrailingData(event.params.order_id)
+  entity.witnessPrice = order.witnessPrice.d
+  entity.trail = order.trail.d
+  entity.trailPct = order.trailPct.d
+  entity.gap = order.gap.d
+  entity.gapPct = order.gapPct.d
+  entity.snapshotCreated = order.snapshotCreated
+  entity.snapshotLastUpdated = order.snapshotLastUpdated
+  entity.snapshotTimestamp = order.snapshotTimestamp
+  entity.lastUpdatedKeeper = order.lastUpdatedKeeper
+  entity.usePct = order.usePct
+  entity.save()
+}
 
-export function handleTrailingOrderCreated(event: TrailingOrderCreated): void {}
+export function handlePokeContract(call: PokeContractCall): void {
+  let entity = TrailingOrder.load(call.inputs.order_id.toString())
+  let contract = Contract.bind(call.to)
+  let order = contract.getTrailingData(call.inputs.order_id)
+  entity.witnessPrice = order.witnessPrice.d
+  entity.trail = order.trail.d
+  entity.trailPct = order.trailPct.d
+  entity.gap = order.gap.d
+  entity.gapPct = order.gapPct.d
+  entity.snapshotCreated = order.snapshotCreated
+  entity.snapshotLastUpdated = order.snapshotLastUpdated
+  entity.snapshotTimestamp = order.snapshotTimestamp
+  entity.lastUpdatedKeeper = order.lastUpdatedKeeper
+  entity.usePct = order.usePct
+  entity.save()
+}
 
 export function handleTrailingOrderFilled(event: TrailingOrderFilled): void {}
