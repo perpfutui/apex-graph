@@ -29,3 +29,11 @@ type TrailingOrder @entity {
   snapshotTimestamp: BigInt
   lastUpdatedKeeper: Bytes
 }
+
+type SmartWallet @entity {
+  id: ID!
+  owner: Bytes
+  blockCreated: BigInt
+  tradeCount: BigInt
+  balance: BigInt
+}

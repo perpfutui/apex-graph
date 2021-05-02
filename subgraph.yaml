@@ -3,11 +3,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Contract
+    name: LimitOrderBook
     network: xdai
     source:
       address: "0x02e7B722E178518Ae07a596A7cb5F88B313c453a"
-      abi: Contract
+      abi: LimitOrderBook
       startBlock: 15198937
     mapping:
       kind: ethereum/events
@@ -20,8 +20,8 @@ dataSources:
         - TrailingOrderCreated
         - TrailingOrderFilled
       abis:
-        - name: Contract
-          file: ./abis/Contract.json
+        - name: LimitOrderBook
+          file: ./abis/LimitOrderBook.abi.json
       eventHandlers:
         - event: OrderChanged(indexed address,uint256)
           handler: handleOrderChanged
@@ -36,4 +36,46 @@ dataSources:
       callHandlers:
         - function: pokeContract(uint256,uint256)
           handler: handlePokeContract
+      file: ./src/mapping.ts
+
+  - kind: ethereum/contract
+    name: SmartWalletFactory
+    network: xdai
+    source:
+      address: "0x68410B166Deb9AB9Aff99d3efFE32bd2940c84eA"
+      abi: SmartWalletFactory
+      startBlock: 15198937
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Created
+      abis:
+        - name: SmartWalletFactory
+          file: ./abis/SmartWalletFactory.abi.json
+      eventHandlers:
+        - event: Created(indexed address,indexed address)
+          handler: handleCreated
+      file: ./src/mapping.ts
+
+  - kind: ethereum/contract
+    name: USDC
+    network: xdai
+    source:
+      address: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83"
+      abi: USDC
+      startBlock: 15198937
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: USDC
+          file: ./abis/USDC.abi.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
       file: ./src/mapping.ts
