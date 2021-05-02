@@ -1,6 +1,5 @@
 import {
-  BigInt,
-  Address
+  BigInt
 } from "@graphprotocol/graph-ts"
 import {
   LimitOrderBook,
@@ -12,16 +11,8 @@ import {
   PokeContractCall
 } from "../generated/LimitOrderBook/LimitOrderBook"
 import {
-  SmartWalletFactory,
-  Created
-} from "../generated/SmartWalletFactory/SmartWalletFactory"
-import {
-  Transfer,
-  USDC
-} from "../generated/USDC/USDC"
-import { Order,
-  TrailingOrder,
-  SmartWallet
+  Order,
+  TrailingOrder
 } from "../generated/schema"
 
 export function handleOrderChanged(event: OrderChanged): void {
@@ -105,26 +96,3 @@ export function handlePokeContract(call: PokeContractCall): void {
 }
 
 export function handleTrailingOrderFilled(event: TrailingOrderFilled): void {}
-
-export function handleCreated(event: Created): void {
-  let entity = new SmartWallet(event.params.smartWallet.toHexString())
-  entity.balance = BigInt.fromI32(0)
-  entity.blockCreated = event.block.number
-  entity.tradeCount = BigInt.fromI32(0)
-  entity.owner = event.params.owner
-  entity.save()
-}
-
-export function handleTransfer(event: Transfer): void {
-  let wallet = SmartWallet.load(event.params.from.toHexString())
-  if(wallet == null) {
-    wallet = SmartWallet.load(event.params.to.toHexString())
-    if(wallet == null) {
-      //do nothing
-    } else {
-      let contract = USDC.bind(event.address)
-      wallet.balance = contract.balanceOf(Address.fromString(wallet.id))
-      wallet.save()
-    }
-  }
-}

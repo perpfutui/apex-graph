@@ -35,5 +35,6 @@ type SmartWallet @entity {
   owner: Bytes
   blockCreated: BigInt
   tradeCount: BigInt
+  tradeVolume: BigInt
   balance: BigInt
 }

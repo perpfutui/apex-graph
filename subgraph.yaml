@@ -57,7 +57,7 @@ dataSources:
       eventHandlers:
         - event: Created(indexed address,indexed address)
           handler: handleCreated
-      file: ./src/mapping.ts
+      file: ./src/wallets.ts
 
   - kind: ethereum/contract
     name: USDC
@@ -78,4 +78,25 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts
+      file: ./src/wallets.ts
+
+  - kind: ethereum/contract
+    name: ClearingHouse
+    network: xdai
+    source:
+      address: "0x5d9593586b4B5edBd23E7Eba8d88FD8F09D83EBd"
+      abi: ClearingHouse
+      startBlock: 15198937
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - PositionChanged
+      abis:
+        - name: ClearingHouse
+          file: ./abis/ClearingHouse.abi.json
+      eventHandlers:
+        - event: PositionChanged(indexed address,indexed address,uint256,uint256,int256,uint256,int256,int256,int256,uint256,uint256,uint256,int256)
+          handler: handlePositionChanged
+      file: ./src/wallets.ts
