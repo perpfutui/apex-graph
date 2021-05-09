@@ -37,4 +37,5 @@ type SmartWallet @entity {
   tradeCount: BigInt
   tradeVolume: BigInt
   balance: BigInt
+  totalPnL: BigInt
 }

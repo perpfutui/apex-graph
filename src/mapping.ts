@@ -93,6 +93,12 @@ export function handlePokeContract(call: PokeContractCall): void {
   entity.lastUpdatedKeeper = order.lastUpdatedKeeper
   entity.usePct = order.usePct
   entity.save()
+
+  let ent = Order.load(call.inputs.order_id.toString())
+  let ord = contract.getLimitOrder(call.inputs.order_id)
+  ent.stopPrice = ord.stopPrice.d
+  ent.limitPrice = ord.limitPrice.d
+  ent.save()
 }
 
 export function handleTrailingOrderFilled(event: TrailingOrderFilled): void {}
