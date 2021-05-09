@@ -12,7 +12,8 @@ import {
 } from "../generated/USDC/USDC"
 import { Order,
   TrailingOrder,
-  SmartWallet
+  SmartWallet,
+  Trade
 } from "../generated/schema"
 import {
   PositionChanged
@@ -52,5 +53,20 @@ export function handlePositionChanged(event: PositionChanged): void {
     wallet.tradeVolume += event.params.positionNotional
     wallet.totalPnL += event.params.realizedPnl
     wallet.save()
+
+    let trade = Trade.load(event.transaction.hash.toHex())
+    if(trade == null) {
+      trade = new Trade(event.transaction.hash.toHex())
+    }
+    trade.trader = Address.fromString(event.params.trader.toString())
+    trade.wallet = Address.fromString(wallet.id)
+    trade.asset = event.params.amm
+    trade.size = event.params.exchangedPositionSize
+    trade.price = event.params.spotPrice
+    trade.timestamp = event.block.timestamp
+    trade.realizedPnl = event.params.realizedPnl
+    trade.fee = event.params.fee
+    trade.positionNotional = event.params.positionNotional
+    trade.save()
   }
 }

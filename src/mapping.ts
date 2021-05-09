@@ -12,7 +12,8 @@ import {
 } from "../generated/LimitOrderBook/LimitOrderBook"
 import {
   Order,
-  TrailingOrder
+  TrailingOrder,
+  Trade
 } from "../generated/schema"
 
 export function handleOrderChanged(event: OrderChanged): void {
@@ -59,6 +60,12 @@ export function handleOrderFilled(event: OrderFilled): void {
   entity.filled = true
   entity.stillValid = false
   entity.save()
+  let trade = Trade.load(event.transaction.hash.toHex())
+  if(trade == null) {
+    trade = new Trade(event.transaction.hash.toHex())
+  }
+  trade.order_id = event.params.order_id
+  trade.save()
 }
 
 export function handleTrailingOrderCreated(event: TrailingOrderCreated): void {
