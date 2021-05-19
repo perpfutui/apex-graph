@@ -29,6 +29,7 @@ type Trade @entity {
   realizedPnl: BigInt
   fee: BigInt
   positionNotional: BigInt
+  liquidation: Boolean
 }
 
 type TrailingOrder @entity {

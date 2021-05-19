@@ -99,4 +99,6 @@ dataSources:
       eventHandlers:
         - event: PositionChanged(indexed address,indexed address,uint256,uint256,int256,uint256,int256,int256,int256,uint256,uint256,uint256,int256)
           handler: handlePositionChanged
+        - event: PositionLiquidated(indexed address,indexed address,uint256,uint256,uint256,address,uint256)
+          handler: handlePositionLiquidated
       file: ./src/wallets.ts

@@ -16,7 +16,8 @@ import { Order,
   Trade
 } from "../generated/schema"
 import {
-  PositionChanged
+  PositionChanged,
+  PositionLiquidated
 } from "../generated/ClearingHouse/ClearingHouse"
 import {
   getSmartWalletOwner
@@ -69,4 +70,12 @@ export function handlePositionChanged(event: PositionChanged): void {
     trade.positionNotional = event.params.positionNotional
     trade.save()
   }
+}
+
+export function handlePositionLiquidated(event: PositionLiquidated): void {
+  let trade = Trade.load(event.transaction.hash.toHex())
+  if(trade == null) {
+    trade = new Trade(event.transaction.hash.toHex())
+  }
+  trade.liquidation = true
 }
