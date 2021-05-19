@@ -65,6 +65,7 @@ export function handleOrderFilled(event: OrderFilled): void {
     trade = new Trade(event.transaction.hash.toHex())
   }
   trade.order_id = event.params.order_id
+  trade.order = event.params.order_id.toString()
   trade.save()
 }
 

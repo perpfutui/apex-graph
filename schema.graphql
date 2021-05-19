@@ -16,6 +16,21 @@ type Order @entity {
   expiry: BigInt
 }
 
+type Trade @entity {
+  id: ID!
+  order_id: BigInt
+  order: Order
+  trader: Bytes
+  wallet: Bytes
+  asset: Bytes
+  size: BigInt
+  price: BigInt
+  timestamp: BigInt
+  realizedPnl: BigInt
+  fee: BigInt
+  positionNotional: BigInt
+}
+
 type TrailingOrder @entity {
   id: ID!
   witnessPrice: BigInt
@@ -38,18 +53,4 @@ type SmartWallet @entity {
   tradeVolume: BigInt
   balance: BigInt
   totalPnL: BigInt
-}
-
-type Trade @entity {
-  id: ID!
-  order_id: BigInt
-  trader: Bytes
-  wallet: Bytes
-  asset: Bytes
-  size: BigInt
-  price: BigInt
-  timestamp: BigInt
-  realizedPnl: BigInt
-  fee: BigInt
-  positionNotional: BigInt
 }

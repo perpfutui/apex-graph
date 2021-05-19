@@ -58,8 +58,8 @@ export function handlePositionChanged(event: PositionChanged): void {
     if(trade == null) {
       trade = new Trade(event.transaction.hash.toHex())
     }
-    trade.trader = Address.fromString(event.params.trader.toString())
-    trade.wallet = Address.fromString(wallet.id)
+    trade.wallet = Address.fromString(event.params.trader.toHexString())
+    trade.trader = wallet.owner
     trade.asset = event.params.amm
     trade.size = event.params.exchangedPositionSize
     trade.price = event.params.spotPrice
