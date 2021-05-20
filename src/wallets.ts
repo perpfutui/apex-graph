@@ -78,4 +78,5 @@ export function handlePositionLiquidated(event: PositionLiquidated): void {
     trade = new Trade(event.transaction.hash.toHex())
   }
   trade.liquidation = true
+  trade.save()
 }
