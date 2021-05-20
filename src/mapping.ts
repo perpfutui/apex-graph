@@ -30,6 +30,22 @@ export function handleOrderChanged(event: OrderChanged): void {
   entity.slippage = order.slippage.d
   entity.expiry = order.expiry
   entity.save()
+
+  let trailingEntity = TrailingOrder.load(event.params.order_id.toString())
+  if(trailingEntity == null) {
+    return
+  }
+  let to = contract.getTrailingData(event.params.order_id)
+  trailingEntity.witnessPrice = to.witnessPrice.d
+  trailingEntity.trail = to.trail.d
+  trailingEntity.trailPct = to.trailPct.d
+  trailingEntity.gap = to.gap.d
+  trailingEntity.gapPct = to.gapPct.d
+  trailingEntity.snapshotLastUpdated = to.snapshotLastUpdated
+  trailingEntity.snapshotTimestamp = to.snapshotTimestamp
+  trailingEntity.lastUpdatedKeeper = to.lastUpdatedKeeper
+  trailingEntity.usePct = to.usePct
+  trailingEntity.save()
 }
 
 export function handleOrderCreated(event: OrderCreated): void {

@@ -20,7 +20,8 @@ import {
   PositionLiquidated
 } from "../generated/ClearingHouse/ClearingHouse"
 import {
-  getSmartWalletOwner
+  getSmartWalletOwner,
+  getAmmPosition
 } from "./helper"
 
 export function handleCreated(event: Created): void {
@@ -69,6 +70,10 @@ export function handlePositionChanged(event: PositionChanged): void {
     trade.fee = event.params.fee
     trade.positionNotional = event.params.positionNotional
     trade.save()
+
+    let ammPosition = getAmmPosition(event.params.amm, event.params.trader)
+    ammPosition.positionSize = event.params.positionSizeAfter
+    ammPosition.save()
   }
 }
 

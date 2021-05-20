@@ -54,4 +54,13 @@ type SmartWallet @entity {
   tradeVolume: BigInt
   balance: BigInt
   totalPnL: BigInt
+  ammPositions: [AmmPosition!]! @derivedFrom(field: "position")
+}
+
+type AmmPosition @entity {
+  id: ID!
+  amm: Bytes! # address
+  trader: Bytes! # address
+  positionSize: BigInt # int256
+  position: SmartWallet
 }
