@@ -6,9 +6,9 @@ dataSources:
     name: LimitOrderBook
     network: xdai
     source:
-      address: "0x02e7B722E178518Ae07a596A7cb5F88B313c453a"
+      address: "0x369287aD9acf4b872F4D6636446D834e73BD41Fd"
       abi: LimitOrderBook
-      startBlock: 15198937
+      startBlock: 16223597
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -17,8 +17,12 @@ dataSources:
         - OrderChanged
         - OrderCreated
         - OrderFilled
+        - OrderCancelled
         - TrailingOrderCreated
         - TrailingOrderFilled
+        - TrailingOrderChanged
+        - TrailingOrderCancelled
+        - ContractPoked
       abis:
         - name: LimitOrderBook
           file: ./abis/LimitOrderBook.abi.json
@@ -29,22 +33,27 @@ dataSources:
           handler: handleOrderCreated
         - event: OrderFilled(indexed address,uint256)
           handler: handleOrderFilled
+        - event: OrderCancelled(indexed address,uint256)
+          handler: handleOrderCancelled
         - event: TrailingOrderCreated(uint256,uint256)
           handler: handleTrailingOrderCreated
         - event: TrailingOrderFilled(uint256)
           handler: handleTrailingOrderFilled
-      callHandlers:
-        - function: pokeContract(uint256,uint256)
-          handler: handlePokeContract
+        - event: TrailingOrderChanged(uint256)
+          handler: handleTrailingOrderChanged
+        - event: TrailingOrderCancelled(uint256)
+          handler: handleTrailingOrderCancelled
+        - event: ContractPoked(uint256,uint256)
+          handler: handleContractPoked
       file: ./src/mapping.ts
 
   - kind: ethereum/contract
     name: SmartWalletFactory
     network: xdai
     source:
-      address: "0x68410B166Deb9AB9Aff99d3efFE32bd2940c84eA"
+      address: "0xF3d56a424c24280654C4104F3FBE62f6b6A8b6Ca"
       abi: SmartWalletFactory
-      startBlock: 15198937
+      startBlock: 16223597
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -65,7 +74,7 @@ dataSources:
     source:
       address: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83"
       abi: USDC
-      startBlock: 15198937
+      startBlock: 16223597
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -86,7 +95,7 @@ dataSources:
     source:
       address: "0x5d9593586b4B5edBd23E7Eba8d88FD8F09D83EBd"
       abi: ClearingHouse
-      startBlock: 15198937
+      startBlock: 16223597
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
