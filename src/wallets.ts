@@ -63,6 +63,10 @@ export function handlePositionChanged(event: PositionChanged): void {
 }
 
 export function handlePositionLiquidated(event: PositionLiquidated): void {
+  let wallet = SmartWallet.load(event.params.trader.toHexString());
+  if (wallet == null) {
+    return;
+  }
   let trade = Trade.load(event.transaction.hash.toHex());
   if (trade == null) {
     trade = new Trade(event.transaction.hash.toHex());
