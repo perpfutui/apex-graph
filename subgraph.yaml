@@ -14,15 +14,8 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - OrderChanged
-        - OrderCreated
-        - OrderFilled
-        - OrderCancelled
-        - TrailingOrderCreated
-        - TrailingOrderFilled
-        - TrailingOrderChanged
-        - TrailingOrderCancelled
-        - ContractPoked
+        - Order
+        - TrailingOrder
       abis:
         - name: LimitOrderBook
           file: ./abis/LimitOrderBook.abi.json
@@ -59,7 +52,7 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Created
+        - SmartWallet
       abis:
         - name: SmartWalletFactory
           file: ./abis/SmartWalletFactory.abi.json
@@ -80,7 +73,7 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Transfer
+        - SmartWallet
       abis:
         - name: USDC
           file: ./abis/USDC.abi.json
@@ -101,7 +94,8 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - PositionChanged
+        - AmmPosition
+        - Trade
       abis:
         - name: ClearingHouse
           file: ./abis/ClearingHouse.abi.json

@@ -1,5 +1,6 @@
 import {
-  BigInt
+  BigInt,
+  log
 } from "@graphprotocol/graph-ts"
 import {
   LimitOrderBook,
